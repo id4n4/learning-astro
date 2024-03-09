@@ -1,7 +1,7 @@
 ---
 import { getLaunchBy } from "../../services/spacex";
 import Layout from "../../layouts/Layout.astro";
-import { Doc } from "../../types/api";
+import { type Doc } from "../../types/api";
 export const prerender = false;
 
 const { id } = Astro.params;
@@ -19,7 +19,11 @@ if (id) {
       </h1>
     ) : (
       <article class="flex flex-col items-center">
-        <img src={launch?.links.patch.small} alt={launch?.name} />
+        <img
+          src={launch?.links.patch.small}
+          alt={launch?.name}
+          transition:name={id}
+        />
         <h2 class="text-4xl text-white font-bold">
           Launch #{launch?.flight_number}
         </h2>
