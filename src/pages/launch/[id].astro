@@ -1,0 +1,30 @@
+---
+import { getLaunchBy } from "../../services/spacex";
+import Layout from "../../layouts/Layout.astro";
+import { Doc } from "../../types/api";
+export const prerender = false;
+
+const { id } = Astro.params;
+let launch: Doc | null = null;
+if (id) {
+  launch = await getLaunchBy({ id });
+}
+---
+
+<Layout title={`Lanzamiento ${id}`}>
+  {
+    !launch ? (
+      <h1 class="text-4xl text-white font-bold">
+        No se encontró el lanzamiento
+      </h1>
+    ) : (
+      <article class="flex flex-col items-center">
+        <img src={launch?.links.patch.small} alt={launch?.name} />
+        <h2 class="text-4xl text-white font-bold">
+          Launch #{launch?.flight_number}
+        </h2>
+        <p class="text-lg">{launch?.details}</p>
+      </article>
+    )
+  }
+</Layout>
